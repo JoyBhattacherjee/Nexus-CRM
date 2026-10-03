@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { z } from 'zod';
+import prisma from '../utils/prisma.js';
+import { authenticate } from '../middleware/auth.js';
+import { ApiError, asyncHandler } from '../utils/http.js';
+const router=Router();router.use(authenticate);
+const schema=z.object({title:z.string().min(2),description:z.string().optional(),dueDate:z.string().optional().nullable(),status:z.enum(['TODO','IN_PROGRESS','DONE']).optional(),priority:z.enum(['LOW','MEDIUM','HIGH']).optional(),assigneeId:z.string().optional()});
+const scope=(req)=>req.user.role==='SALES'?{assigneeId:req.user.id}:{};
+router.get('/',asyncHandler(async(req,res)=>res.json({tasks:await prisma.task.findMany({where:scope(req),orderBy:[{status:'asc'},{dueDate:'asc'}],include:{assignee:{select:{id:true,name:true,avatar:true}}}})})));
+router.post('/',asyncHandler(async(req,res)=>{const p=schema.safeParse(req.body);if(!p.success)throw new ApiError(400,p.error.issues[0].message);const assigneeId=req.user.role==='SALES'?req.user.id:p.data.assigneeId||req.user.id;const task=await prisma.task.create({data:{...p.data,assigneeId,dueDate:p.data.dueDate?new Date(p.data.dueDate):null}});res.status(201).json({task});}));
+router.put('/:id',asyncHandler(async(req,res)=>{const current=await prisma.task.findFirst({where:{id:req.params.id,...scope(req)}});if(!current)throw new ApiError(404,'Task not found');const p=schema.partial().safeParse(req.body);if(!p.success)throw new ApiError(400,p.error.issues[0].message);const data={...p.data};if(req.user.role==='SALES')delete data.assigneeId;if(data.dueDate)data.dueDate=new Date(data.dueDate);res.json({task:await prisma.task.update({where:{id:current.id},data})});}));
+router.delete('/:id',asyncHandler(async(req,res)=>{const current=await prisma.task.findFirst({where:{id:req.params.id,...scope(req)}});if(!current)throw new ApiError(404,'Task not found');await prisma.task.delete({where:{id:current.id}});res.status(204).end();}));
+export default router;

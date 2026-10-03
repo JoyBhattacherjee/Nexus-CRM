@@ -1,6 +1,6 @@
 # Nexus CRM + Learning Management System
 
-I built Nexus as a full-stack customer relationship management (CRM) and learning management system (LMS) for teams that want to manage customer relationships, sales work, and employee learning in one place.
+Nexus is a full-stack customer relationship management (CRM) and learning management system (LMS) for teams that want to manage customer relationships, sales work, and employee learning in one place.
 
 The application brings together lead and deal tracking, contact management, team tasks, role-based access, and course delivery in a responsive web experience. This README describes the product, its capabilities, and how to run it locally.
 

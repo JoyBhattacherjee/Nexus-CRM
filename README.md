@@ -1,8 +1,8 @@
-# Nexus CRM + LMS
+# Nexus CRM + Learning Management System
 
-A modern full-stack CRM and Learning Management System built as a portfolio-ready GitHub project.
+I built Nexus as a full-stack customer relationship management (CRM) and learning management system (LMS) for teams that want to manage customer relationships, sales work, and employee learning in one place.
 
-Nexus combines customer relationship management, sales pipeline operations, task tracking, team permissions, and internal learning in one responsive web application.
+The application brings together lead and deal tracking, contact management, team tasks, role-based access, and course delivery in a responsive web experience. This README describes the product, its capabilities, and how to run it locally.
 
 ## Features
 
@@ -55,7 +55,7 @@ Nexus combines customer relationship management, sales pipeline operations, task
 ## Project structure
 
 ```text
-portfolio-crm-lms/
+Nexus-CRM/
 ├── client/
 │   ├── src/
 │   │   ├── components/
@@ -220,7 +220,7 @@ server/prisma/seed.js
 
 ## Security notes
 
-This project includes sensible portfolio defaults:
+I built in several security measures to protect accounts and control access:
 - Passwords are hashed with bcrypt
 - APIs are protected by JWT middleware
 - Server-side role checks protect privileged actions
@@ -253,9 +253,9 @@ cd server && npm run prisma:seed
 cd server && npx prisma studio
 ```
 
-## Portfolio talking points
+## Project highlights
 
-This repository demonstrates:
+I designed and implemented the application across the frontend, backend, and database, including:
 - Full-stack React + Node architecture
 - Relational PostgreSQL schema design
 - Authentication and RBAC
@@ -269,4 +269,4 @@ This repository demonstrates:
 
 ## License
 
-MIT — free to use as a portfolio foundation and extend for your own projects.
+MIT — you may use, modify, and distribute this software under the terms of the license.
